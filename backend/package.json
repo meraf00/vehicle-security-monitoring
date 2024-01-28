@@ -1,0 +1,19 @@
+{
+  "name": "vehicle_security_monitoring",
+  "version": "1.0.0",
+  "description": "Track your vehicles in real-time with live GPS, receive instant security alerts for unauthorized access, and remotely monitor surroundings with video feeds.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meraf00/vehicle-security-monitoring.git"
+  },
+  "author": "Leul Wujira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meraf00/vehicle-security-monitoring/issues"
+  },
+  "homepage": "https://github.com/meraf00/vehicle-security-monitoring#readme"
+}
