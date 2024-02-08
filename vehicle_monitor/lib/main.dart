@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_monitor/screens/login.dart';
 import 'package:vehicle_monitor/screens/register.dart';
+import 'package:vehicle_monitor/screens/vehicles_list.dart';
 import 'consts.dart';
 import 'screens/about.dart';
 import 'theme/app_theme.dart';
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: Consts.appName,
       theme: AppTheme.themeData,
-      home: LoginScreen(),
+      home: VehicleScreen(),
       routes: {
+        '/vehicles': (context) => VehicleScreen(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/about': (context) => const AboutScreen(),
