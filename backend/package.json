@@ -2,8 +2,10 @@
   "name": "vehicle_security_monitoring",
   "version": "1.0.0",
   "description": "Track your vehicles in real-time with live GPS, receive instant security alerts for unauthorized access, and remotely monitor surroundings with video feeds.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "tsc && node dist/app.js",
+    "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +17,23 @@
   "bugs": {
     "url": "https://github.com/meraf00/vehicle-security-monitoring/issues"
   },
-  "homepage": "https://github.com/meraf00/vehicle-security-monitoring#readme"
+  "homepage": "https://github.com/meraf00/vehicle-security-monitoring#readme",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.11.9",
+    "dotenv": "^16.4.1",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "express-jwt": "^8.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.1",
+    "zod": "^3.22.4"
+  }
 }

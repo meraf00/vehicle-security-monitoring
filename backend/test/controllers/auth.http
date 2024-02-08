@@ -1,0 +1,30 @@
+# Register
+POST /auth/register HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+    "email": "email@gmail.com",
+    "password": "notsecure"
+}
+
+
+POST /auth/login HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+    "email": "email@gmail.com"
+    "password": "notsecure"
+}
+
+# Login
+# Fails with 401 Unauthorized
+POST /auth/login HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+    "email": "email",
+    "password": "notsecure"
+}
