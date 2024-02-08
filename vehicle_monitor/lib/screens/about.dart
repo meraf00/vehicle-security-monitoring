@@ -9,17 +9,18 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
         body: Column(
       children: [
-        Image.asset(Assets.astuLogo, width: 200, height: 200),
-        Column(
+        Image.asset(Assets.astuLogo, width: 180, height: 180),
+        const Text('Built by'),
+        const Column(
           children: [
             Text('Leul Wujira'),
             Text('Software Engineer'),
           ],
         ),
-        Column(
+        const Column(
           children: [
-            Text('Zekarias'),
-            Text('Software Engineer'),
+            Text('Zekarias Girma'),
+            Text('Mechatronic Engineer'),
           ],
         ),
       ],
