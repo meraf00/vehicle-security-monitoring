@@ -19,4 +19,14 @@ class Vehicle {
       {required this.location,
       required this.plate,
       this.status = Status.disconnected});
+
+  factory Vehicle.fromJson(Map<String, dynamic> json) {
+    return Vehicle(
+      location: json['location'],
+      plate: json['plate'],
+      status: json['status'] == 'connected'
+          ? Status.connected
+          : Status.disconnected,
+    );
+  }
 }

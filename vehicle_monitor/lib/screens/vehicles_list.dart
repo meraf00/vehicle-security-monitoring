@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:vehicle_monitor/models/vehicle.dart';
 import 'package:vehicle_monitor/theme/app_colors.dart';
 
-class VehicleScreen extends StatelessWidget {
-  const VehicleScreen({super.key});
+class VehicleListScreen extends StatelessWidget {
+  const VehicleListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final items = [
       Vehicle(plate: '5X472', location: '83874940'),
+      Vehicle(plate: '84721', location: '83874940'),
+      Vehicle(plate: '4235', location: '83874940'),
+      Vehicle(plate: '742452', location: '83874940'),
       Vehicle(plate: '5X472', location: '83874940'),
       Vehicle(plate: '5X472', location: '83874940'),
       Vehicle(plate: '5X472', location: '83874940'),
       Vehicle(plate: '5X472', location: '83874940'),
-      Vehicle(plate: '5X472', location: '83874940'),
-      Vehicle(plate: '5X472', location: '83874940'),
-      Vehicle(plate: '5X472', location: '83874940'),
+      Vehicle(plate: '8yeru', location: '83874940', status: Status.connected),
+      Vehicle(plate: '5Xaf72', location: '83874940', status: Status.connected),
       Vehicle(plate: '5X472', location: '83874940', status: Status.connected),
-      Vehicle(plate: '5X472', location: '83874940', status: Status.connected),
-      Vehicle(plate: '5X472', location: '83874940', status: Status.connected),
-      Vehicle(plate: '5X472', location: '83874940', status: Status.connected),
+      Vehicle(
+          plate: '5Xasdf472', location: '83874940', status: Status.connected),
     ];
 
     items.sort(
@@ -59,7 +60,8 @@ class VehicleScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return ListTile(
                 onTap: () => {
-                  Navigator.pushNamed(context, '/about'),
+                  Navigator.pushNamed(context, '/vehicle',
+                      arguments: items[index]),
                 },
 
                 contentPadding: const EdgeInsets.all(9.0),
@@ -84,7 +86,7 @@ class VehicleScreen extends StatelessWidget {
                         child: Text('Edit'),
                       ),
                       const PopupMenuItem(
-                        child: Text('Delete'),
+                        child: Text('Remove'),
                       ),
                     ];
                   },
