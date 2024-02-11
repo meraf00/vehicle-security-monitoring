@@ -3,6 +3,6 @@ final class Assets {
 }
 
 final class Consts {
-  static String apiBaseUrl = 'http://192.168.206.163:3000';
+  static String apiBaseUrl = 'http://192.168.1.4:3000';
   static String appName = 'ASTU Biometric Vehicle Security Monitoring App';
 }

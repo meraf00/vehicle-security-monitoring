@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vehicle_monitor/bloc/auth/auth_bloc.dart';
 import 'package:vehicle_monitor/bloc_observer.dart';
-import 'package:vehicle_monitor/models/vehicle.dart';
 import 'package:vehicle_monitor/screens/login.dart';
 import 'package:vehicle_monitor/screens/register.dart';
+import 'package:vehicle_monitor/screens/splash_screen.dart';
 import 'package:vehicle_monitor/screens/vehicle_detail.dart';
 import 'package:vehicle_monitor/screens/vehicles_list.dart';
 import 'consts.dart';
@@ -25,17 +26,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: Consts.appName,
-      theme: AppTheme.themeData,
-      home: VehicleListScreen(),
-      routes: {
-        '/vehicle': (context) => VehicleScreen(),
-        '/vehicles': (context) => VehicleListScreen(),
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen(),
-        '/about': (context) => const AboutScreen(),
-      },
+    return BlocProvider(
+      create: (context) =>
+          di.serviceLocator<AuthBloc>()..add(const AuthCheckEvent()),
+      child: MaterialApp(
+        title: Consts.appName,
+        theme: AppTheme.themeData,
+        home: SplashScreen(),
+        routes: {
+          '/vehicle': (context) => VehicleScreen(),
+          '/vehicles': (context) => VehicleListScreen(),
+          '/login': (context) => LoginScreen(),
+          '/register': (context) => RegisterScreen(),
+          '/about': (context) => const AboutScreen(),
+        },
+      ),
     );
   }
 }

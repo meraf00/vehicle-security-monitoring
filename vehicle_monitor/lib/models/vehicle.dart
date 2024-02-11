@@ -22,11 +22,9 @@ class Vehicle {
 
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(
-      location: json['location'],
-      plate: json['plate'],
-      status: json['status'] == 'connected'
-          ? Status.connected
-          : Status.disconnected,
+      location: json['location'] ?? '',
+      plate: json['plate'] ?? '',
+      status: Status.disconnected,
     );
   }
 }

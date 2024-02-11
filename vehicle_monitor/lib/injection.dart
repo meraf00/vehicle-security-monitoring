@@ -1,22 +1,21 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vehicle_monitor/bloc/auth/auth_bloc.dart';
+import 'package:vehicle_monitor/bloc/vehicle/vehicle_bloc.dart';
 import 'package:vehicle_monitor/core/auth.dart';
 import 'package:vehicle_monitor/core/repository.dart';
 
 final serviceLocator = GetIt.instance;
 
 Future<void> init() async {
-  //! Features - Article
   // Bloc
-  // serviceLocator.registerFactory(
-  //   () => ArticleBloc(
-  //       createArticle: serviceLocator(),
-  //       deleteArticle: serviceLocator(),
-  //       getAllArticles: serviceLocator(),
-  //       getArticle: serviceLocator(),
-  //       updateArticle: serviceLocator(),
-  //       filterArticles: serviceLocator()),
-  // );
+  serviceLocator.registerFactory(() => AuthBloc(
+        repo: serviceLocator(),
+      ));
+
+  serviceLocator.registerFactory(() => VehicleBloc(
+        repo: serviceLocator(),
+      ));
 
   serviceLocator.registerLazySingleton(
     () => Repository(auth: serviceLocator(), prefs: serviceLocator()),

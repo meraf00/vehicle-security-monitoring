@@ -5,10 +5,12 @@ import '../consts.dart';
 
 class Auth {
   Future<String> login(String email, String password) async {
-    final request = await http.post(Uri.parse(Consts.apiBaseUrl),
+    final request = await http.post(
+        Uri.parse('${Consts.apiBaseUrl}/auth/login'),
         body: {'email': email, 'password': password});
-
+    print(request.statusCode);
     if (request.statusCode == 200) {
+      print(request.body);
       final token = jsonDecode(request.body)['token'] as String;
       return token;
     } else if (request.statusCode == 401) {
@@ -19,12 +21,15 @@ class Auth {
   }
 
   Future<void> register(String email, String password) async {
-    final request = await http.post(Uri.parse(Consts.apiBaseUrl),
+    final request = await http.post(
+        Uri.parse('${Consts.apiBaseUrl}/auth/register'),
         body: {'email': email, 'password': password});
 
     if (request.statusCode == 201) {
       return;
     } else if (request.statusCode == 400) {
+      throw Exception('Invalid email or short password (min 6)');
+    } else if (request.statusCode == 401) {
       throw Exception('Email already exists');
     }
 

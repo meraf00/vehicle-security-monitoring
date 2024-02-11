@@ -3,23 +3,31 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vehicle_monitor/consts.dart';
 import 'package:vehicle_monitor/core/auth.dart';
+import 'package:vehicle_monitor/core/streamsocket.dart';
 import 'package:vehicle_monitor/models/vehicle.dart';
 import 'package:http/http.dart' as http;
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
+import 'dart:async';
+
 class Repository {
   final SharedPreferences prefs;
   final Auth auth;
+  final StreamSocket streamSocket = StreamSocket();
 
   Repository({required this.prefs, required this.auth});
 
-  void connectToSocket(String token) {
-    final socket = io.io('https://your_socket_server_url', <String, dynamic>{
+  void connectToSocket() {
+    final socket = io.io(Consts.apiBaseUrl, <String, dynamic>{
       'autoConnect': false,
-      'extraHeaders': <String, String>{'Authorization': token},
+      'extraHeaders': <String, String>{
+        'authorization': prefs.getString('token') ?? ''
+      },
     });
+    print('adjfhjd');
 
     socket.connect();
+    socket.emit('vehicle_status', 'adkfhajkdfhjakd');
 
     socket.onConnect((_) {
       print('Connected to the socket server');
@@ -29,14 +37,18 @@ class Repository {
       print('Disconnected from the socket server');
     });
 
-    socket.on('message', (data) {
-      print('Received message: $data');
+    socket.on('vehicle_status', (data) {
+      print(data);
+      print('<<<<<');
+      streamSocket.addResponse(data);
     });
   }
 
   Future<Vehicle> getVehicle(String plate) async {
-    final req =
-        await http.post(Uri.parse(Consts.apiBaseUrl), body: {'plate': plate});
+    final req = await http
+        .get(Uri.parse('${Consts.apiBaseUrl}/vehicles/$plate'), headers: {
+      'Authorization': "Bearer ${prefs.getString('token') ?? ''}",
+    });
 
     if (req.statusCode == 200) {
       final parsed = jsonDecode(req.body) as Map<String, dynamic>;
@@ -46,10 +58,14 @@ class Repository {
     throw Exception('Failed to get vehicle');
   }
 
-  Future<List<Vehicle>> getVehicles(String plate) async {
-    final req = await http.get(Uri.parse(Consts.apiBaseUrl));
+  Future<List<Vehicle>> getVehicles() async {
+    final req =
+        await http.get(Uri.parse('${Consts.apiBaseUrl}/vehicles'), headers: {
+      'Authorization': "Bearer ${prefs.getString('token') ?? ''}",
+    });
 
     if (req.statusCode == 200) {
+      connectToSocket();
       final parsed = jsonDecode(req.body) as Map<String, dynamic>;
       final vehicles = parsed['vehicles'] as List<dynamic>;
       return vehicles.map((e) => Vehicle.fromJson(e)).toList();
@@ -76,12 +92,23 @@ class Repository {
   }
 
   // Auth
-  Future<void> login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     final token = await auth.login(email, password);
     await prefs.setString('token', token);
+    return true;
   }
 
-  Future<void> register(String email, String password) async {
+  Future<bool> register(String email, String password) async {
     await auth.register(email, password);
+    return true;
+  }
+
+  Future<bool> logout() async {
+    await prefs.remove('token');
+    return true;
+  }
+
+  Future<bool> isLoggedIn() async {
+    return prefs.containsKey('token');
   }
 }
