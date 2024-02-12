@@ -12,6 +12,7 @@ const validate =
 
       next();
     } catch (err: any) {
+      console.log(err.errors);
       return res.status(400).send(err.errors);
     }
   };
