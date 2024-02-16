@@ -9,6 +9,7 @@ const getVehicle = async (plate: string, userEmail: string) => {
 
 const getVehicles = async (userEmail: string) => {
   const vehicles = await vehicleModel.find({ ownerEmail: userEmail });
+
   return vehicles;
 };
 
@@ -31,4 +32,26 @@ const removeVehicle = async (plate: string, userEmail: string) => {
   await vehicleModel.deleteOne({ plate });
 };
 
-export { addVehicle, removeVehicle, getVehicle, getVehicles, getIncidents };
+const createIncident = async (
+  userEmail: string,
+  vehiclePlate: string,
+  location: string,
+  imageUrl: string
+) => {
+  const incident = new incidentModel();
+  incident.imageUrl = imageUrl;
+  incident.location = location;
+  incident.timestamp = new Date();
+  incident.vehiclePlate = vehiclePlate;
+  incident.userEmail = userEmail;
+  return incident.save();
+};
+
+export {
+  addVehicle,
+  removeVehicle,
+  getVehicle,
+  getVehicles,
+  getIncidents,
+  createIncident,
+};

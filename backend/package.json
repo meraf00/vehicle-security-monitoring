@@ -24,6 +24,7 @@
     "@types/express-ws": "^3.0.4",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.11.9",
+    "@types/nodemailer": "^6.4.14",
     "@types/ws": "^8.5.10",
     "dotenv": "^16.4.1",
     "nodemon": "^3.0.3",
@@ -37,6 +38,7 @@
     "express-ws": "^5.0.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
+    "nodemailer": "^6.9.9",
     "socket.io": "^4.7.4",
     "ws": "^8.16.0",
     "zod": "^3.22.4"
