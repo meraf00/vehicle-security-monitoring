@@ -4,8 +4,9 @@
   "description": "Track your vehicles in real-time with live GPS, receive instant security alerts for unauthorized access, and remotely monitor surroundings with video feeds.",
   "main": "app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
+    "start": "node dist/app.js",
     "dev": "nodemon",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
