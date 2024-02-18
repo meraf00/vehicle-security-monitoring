@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 export interface MailData {
   to: string;
   subject: string;
-  text: string;
+  html: string;
 }
 
 const config = {
@@ -24,7 +24,7 @@ const send = (data: MailData) => {
     from: process.env.EMAIL,
     to: data.to,
     subject: data.subject,
-    text: data.text,
+    html: data.html,
   });
 };
 

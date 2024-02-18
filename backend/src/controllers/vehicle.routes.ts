@@ -102,7 +102,7 @@ router.post('/:id/incidents', async (req, res) => {
     await send({
       to: auth.email,
       subject: 'Incident reported',
-      text: `An incident was reported for vehicle ${plate}.`,
+      html: `<p>An incident was reported for vehicle ${plate}.</p><a href="${imageUrl}"></a><img src="${imageUrl} />"`,
     });
     res.status(200).json({ message: 'Incident created successfully.' });
   } catch (error) {
