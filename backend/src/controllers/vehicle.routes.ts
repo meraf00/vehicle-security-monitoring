@@ -66,7 +66,7 @@ router.post('/', validate(VehicleCreateSchema), async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  const { auth } = req as IRequestWithAuth;
+  const { auth } = req as any;
   const plate = req.params.id;
 
   try {
