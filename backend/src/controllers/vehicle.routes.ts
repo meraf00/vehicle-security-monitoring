@@ -65,7 +65,7 @@ router.post('/', validate(VehicleCreateSchema), async (req, res) => {
   }
 });
 
-router.delete('/:id', validate(VehicleCreateSchema), async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { auth } = req as IRequestWithAuth;
   const plate = req.params.id;
 
@@ -99,7 +99,7 @@ router.post('/:id/incidents', async (req, res) => {
 
   try {
     await createIncident(auth.email, plate, location, imageUrl);
-    await send({ 
+    await send({
       to: auth.email,
       subject: 'Incident reported',
       text: `An incident was reported for vehicle ${plate}.`,
