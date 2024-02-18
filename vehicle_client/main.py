@@ -3,10 +3,11 @@ import requests
 from getpass import getpass
 import socketio
 import random
+import threading
 
 
 STORAGE_LOCATION = "session"
-API_URL = "http://localhost:3000/"
+API_URL = "https://astu-biometric-vehicle-security.onrender.com/"
 
 sio = socketio.Client()
 
@@ -101,6 +102,25 @@ class Auth:
         os.remove(os.path.join(STORAGE_LOCATION, self.session_filename))
 
 
+def upload_image(image_filename):
+    files = [("image", open(image_filename, "rb"))]
+    r = requests.post(url="https://meraf.pythonanywhere.com/", files=files)
+    print(r.status_code)
+    if r.status_code == 200:
+        print(r.json()["filename"])
+        return "https://meraf.pythonanywhere.com/" + r.json()["filename"]
+
+
+def on_incident(image_filename, location, plate):
+    # Incident handling logic goes here
+
+    requests.post(
+        API_URL + f"vehicles/{plate}/incidents/",
+        json={"imageUrl": upload_image(image_filename), "location": location},
+        headers={"Authorization": f"Bearer {auth.token}"},
+    )
+
+
 # test@gmail.com
 @sio.event
 def connect():
@@ -131,6 +151,47 @@ def lock(data):
         print("Vehicle locked")
 
 
+def location_mainloop():
+    location = Location()
+
+    while True:
+        try:
+            sio.emit(
+                "vehicle_status",
+                {
+                    "latitude": location.latitude,
+                    "longitude": location.longitude,
+                    "plate": auth.plate,
+                    "email": auth.email,
+                    "locked": vehicle.locked,
+                },
+            )
+            sio.sleep(1)
+
+        except KeyboardInterrupt:
+            break
+
+        except Exception as e:
+            print(e)
+
+    sio.disconnect()
+
+
+def incident_loop():
+    while True:
+        try:
+            filename = input("Press enter to report an incident file location")
+            on_incident(filename, "123 456", auth.plate)
+            sio.emit("vehicle_incident", {"plate": auth.plate})
+            sio.sleep(5)
+
+        except KeyboardInterrupt:
+            break
+
+        except Exception as e:
+            print(e)
+
+
 if __name__ == "__main__":
 
     os.makedirs(STORAGE_LOCATION, exist_ok=True)
@@ -153,25 +214,6 @@ if __name__ == "__main__":
 
     sio.connect(API_URL, headers={"authorization": f"{auth.token}"})
 
-    location = Location()
+    threading.Thread(target=location_mainloop).start()
 
-    while True:
-        try:
-            sio.emit(
-                "vehicle_status",
-                {
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                    "plate": auth.plate,
-                    "email": auth.email,
-                },
-            )
-            sio.sleep(1)
-
-        except KeyboardInterrupt:
-            break
-
-        except Exception as e:
-            print(e)
-
-    sio.disconnect()
+    incident_loop()
