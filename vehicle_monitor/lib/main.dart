@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vehicle_monitor/bloc/auth/auth_bloc.dart';
 import 'package:vehicle_monitor/bloc_observer.dart';
+import 'package:vehicle_monitor/core/notification_service.dart';
+import 'package:vehicle_monitor/injection.dart';
 import 'package:vehicle_monitor/screens/login.dart';
 import 'package:vehicle_monitor/screens/register.dart';
 import 'package:vehicle_monitor/screens/splash_screen.dart';
@@ -16,6 +18,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await di.init();
+  await serviceLocator<LocalNotificationService>().init();
   Bloc.observer = SimpleBlocObserver();
 
   runApp(const MyApp());

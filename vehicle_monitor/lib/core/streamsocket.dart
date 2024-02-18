@@ -1,11 +1,13 @@
 import 'dart:async';
 
 class StreamSocket {
-  final _socketResponse = StreamController<String>();
+  final _socketResponse = StreamController<Map<String, dynamic>>();
+  final Map<String, Map<String, dynamic>> vehiclesData = {};
 
-  void Function(String) get addResponse => _socketResponse.sink.add;
+  void Function(Map<String, dynamic>) get addResponse =>
+      _socketResponse.sink.add;
 
-  Stream<String> get getResponse => _socketResponse.stream;
+  Stream<Map<String, dynamic>> get getResponse => _socketResponse.stream;
 
   void dispose() {
     _socketResponse.close();

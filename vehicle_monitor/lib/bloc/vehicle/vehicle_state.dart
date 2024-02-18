@@ -29,3 +29,9 @@ final class VehicleErrorState extends VehicleState {
   @override
   List<Object> get props => [message];
 }
+
+final class VehicleLocked extends VehicleState {}
+
+final class VehicleUnlocked extends VehicleState {}
+
+final class VehicleDeleted extends VehicleState {}

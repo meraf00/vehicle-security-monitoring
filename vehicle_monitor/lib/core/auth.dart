@@ -8,9 +8,8 @@ class Auth {
     final request = await http.post(
         Uri.parse('${Consts.apiBaseUrl}/auth/login'),
         body: {'email': email, 'password': password});
-    print(request.statusCode);
+
     if (request.statusCode == 200) {
-      print(request.body);
       final token = jsonDecode(request.body)['token'] as String;
       return token;
     } else if (request.statusCode == 401) {

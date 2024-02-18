@@ -1,11 +1,19 @@
 class Incident {
-  final String image;
+  final String imageUrl;
   final String location;
-  final String time;
+  final String timestamp;
 
   Incident({
-    required this.image,
+    required this.imageUrl,
     required this.location,
-    required this.time,
+    required this.timestamp,
   });
+
+  factory Incident.fromJson(Map<String, dynamic> json) {
+    return Incident(
+      location: json['location'] ?? '',
+      timestamp: json['timestamp'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
+    );
+  }
 }

@@ -24,6 +24,11 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.blue,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {},
+            color: Colors.transparent,
+          ),
         ),
         body: SafeArea(
           child: Container(
